@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import images from '../assets';
 import { NFTContext } from '../context/NFTContext';
-import { shortenAddress } from '../utils/shortenAddress';
+import { shortenAddress, shortenString } from '../utils/shortenString';
 
 const NFTCard = ({ nft }) => {
 
@@ -26,7 +26,7 @@ const NFTCard = ({ nft }) => {
         <div className='mt-3 flex flex-col'>
           <p className='font-poppins dark:text-white
           text-nft-black-1 font-semibold text-sm 
-          minlg:text-xl'>{nft.name}</p>
+          minlg:text-xl'>{nft.name.length > 24 ? shortenString(nft.name, 24) : nft.name}</p>
           <div className='flexBetween mt-3 minlg:mt-3 flex-row
           xs:flex-col xs:items-start xs:mt-3'>
             <p className='font-poppins dark:text-white

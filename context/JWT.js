@@ -1,1 +1,12 @@
-export const JWT = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJiZjRjYTc2Mi1iYzQ3LTRjZmQtYTEyNi00ZWIzMjBjNmJmMzQiLCJlbWFpbCI6IjUzMTM1NjYxOUBxcS5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiNzUyZWNlYmIyZDM5NDA1Mjk0NjkiLCJzY29wZWRLZXlTZWNyZXQiOiIwYzRjMmYwY2FiMjNkNmU5YzM0ZDgxN2Q0MDhmZGUzZDI4ZTAzODQzNzdiMjVjMjk5ZjQ1ZGY0OTY1MjE3NDQ2IiwiZXhwIjoxNzcwMjgyMjM3fQ.rEo18YWhHxvbRjpH9V-A9tdzxe2jpZYgwKo1QMfRzaw`
+const fs = require('fs');
+const path = require('path');
+
+try {
+    // 获取项目根目录下 .pinata 文件的完整路径
+    const filePath = path.join(__dirname, '..', '.pinata');
+    const JWT = fs.readFileSync(filePath, 'utf8').trim();
+    module.exports = { JWT };
+} catch (error) {
+    console.error('loading .pinata file error:', error);
+    module.exports = { JWT: '' };
+} 

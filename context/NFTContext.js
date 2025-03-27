@@ -2,11 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
 import axios from 'axios';
-import { JWT } from "./JWT";
 
 import { MarketAddress, MarketAddressABI } from './constants';
 
-export const pinataKey = JWT;
+let JWT;
+const fetchJWT = async () => {
+    try {
+        const response = await fetch('/api/get-jwt');
+        const data = await response.json();
+        JWT = data.JWT;
+    } catch (error) {
+        console.error('Failed to get JWT:', error);
+    }
+};
 
 const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
 export const NFTContext = React.createContext();
@@ -24,11 +32,11 @@ export const NFTProvider = ({ children }) => {
         } else {
             console.log("No accounts found.");
         }
-        console.log("检查钱包账户：" + JSON.stringify(accounts));
     }
 
     useEffect(() => {
         checkIfWalletIsConnected();
+        fetchJWT();
     }, []);
 
     const connectWallet = async () => {
@@ -37,7 +45,6 @@ export const NFTProvider = ({ children }) => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         setCurrentAccount(accounts[0]);
 
-        console.log("链接钱包账户：" + JSON.stringify(accounts));
         window.location.reload();
     }
 
@@ -109,7 +116,6 @@ export const NFTProvider = ({ children }) => {
         const contract = fetchContract(provider);
 
         const data = await contract.fetchMarketItems();
-        console.log("显示fetchMarketItems() => " + JSON.stringify(data));
         
         const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
             const tokenURI = await contract.tokenURI(tokenId);

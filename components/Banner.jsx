@@ -3,7 +3,7 @@ import React from 'react'
 const Banner = ({ name, childStyles, parentStyles }) => (
     <div className={`relative w-full flex items-center z-0
     overflow-hidden nft-gradient ${parentStyles}`}>
-        <p className={`font-bold text-5xl font-poppins leading-7
+        <p className={`font-bold text-5xl font-poppins leading-15
         ${childStyles}`}>{name}</p>
     
         <div className='absolute w-48 h-48 sm:w-32 sm:h-32 rounded-full 

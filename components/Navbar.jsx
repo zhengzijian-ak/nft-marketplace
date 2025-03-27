@@ -77,7 +77,7 @@ const Navbar = () => {
                         <Image src={images.logo02}
                             objectFit="contain" width={32} height={32} alt="logo" />
                         <p className='dark:text-white text-nft-black-1
-                            front-semibold text-lg ml-1'>C2NKet</p>
+                            front-semibold text-lg ml-1'>CasualKet</p>
                     </div>
                 </Link>
                 <Link href="/">

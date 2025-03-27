@@ -28,7 +28,7 @@ const Footer = () => {
                             <Image src={images.logo02}
                                 objectFit="contain" width={32} height={32} alt="logo" />
                             <p className='dark:text-white text-nft-black-1
-                                font-semibold text-lg ml-1'>C2NKet</p>
+                                font-semibold text-lg ml-1'>CasualKet</p>
                         </div>
                         <p className="font-poppins dark:text-white text-nft-black-1
                         font-semibold text-base mt-6">Get the latest updates</p>
@@ -49,7 +49,7 @@ const Footer = () => {
                     </div>
                     <div className="flex-1 flexBetweenStart flex-wrap
                     ml-10 md:ml-0 md:mt-8">
-                        <FooterLinks heading="C2NKet" items={['Explore', 'How it works', 'Contact Us']} />
+                        <FooterLinks heading="CasualKet" items={['Explore', 'How it works', 'Contact Us']} />
                         <FooterLinks heading="Support" items={['Help center', 'Terms of service', 'Legal', 'Privacy policy']} />
                     </div>
                 </div>
