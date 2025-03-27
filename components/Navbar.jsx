@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { NFTContext } from '../context/NFTContext';
 import images from '../assets';
 import { Button } from './';
 
@@ -43,14 +44,17 @@ const MenuItems = ({ isMobile, active, setActive}) => {
 };
 
 const ButtonGroup = ({ setActive, router }) => {
-    const hasConnected = true;
+    const { connectWallet, currentAccount } = useContext(NFTContext);
 
-    return hasConnected ? (
+    return currentAccount ? (
         <Button btnName="Create" classStyles="mx-2 rounded-xl" handleClick={() => {
             setActive("");
             router.push("/create-nft");
         }}/>
-    ) : <Button btnName="Connect" classStyles="mx-2 rounded-xl"/>;
+    ) : (
+        <Button btnName="Connect" classStyles="mx-2 rounded-xl" 
+            handleClick={connectWallet}/>
+    );
 };
 
 const Navbar = () => {
@@ -114,7 +118,7 @@ const Navbar = () => {
                         width={25} height={25}
                         alt="menu"
                         onClick={() => setIsOpen(false)}
-                        className={theme === 'light' && 'filter invert'}
+                        className={theme === 'light' ? 'filter invert' : undefined}
                     />
                 ) : (
                     <Image src={images.menu} 
@@ -122,7 +126,7 @@ const Navbar = () => {
                         width={25} height={25}
                         alt="menu"
                         onClick={() => setIsOpen(true)}
-                        className={theme === 'light' && 'filter invert'}
+                        className={theme === 'light' ? 'filter invert' : undefined}
                     />
                 )}
 
