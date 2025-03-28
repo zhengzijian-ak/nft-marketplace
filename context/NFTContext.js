@@ -138,6 +138,53 @@ export const NFTProvider = ({ children }) => {
 
         return items;
     }
+
+    const fetchMyNFTsOrListedNFTs = async (type) => {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = fetchContract(signer);
+
+        const data = type === 'fetchItemsListed' 
+            ? await contract.fetchItemsListed() 
+            : await contract.fetchMyItems();
+
+        const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+            const tokenURI = await contract.tokenURI(tokenId);
+            
+            const url = new URL(tokenURI);
+            const searchParams = new URLSearchParams(url.search);
+            const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
+            
+            return {
+                price,
+                tokenId: tokenId.toNumber(),
+                seller,
+                owner,
+                image: url.origin + url.pathname,
+                name: searchParams.get('name'), 
+                description: searchParams.get('description'),
+                tokenURI
+            };
+        }));
+
+        return items;
+    }
+
+    const butNFT = async (nft) => {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+        const contract = fetchContract(signer);
+        
+        const price = ethers.utils.parseUnits(nft.price.toString(), 'ether');
+        const transaction = await contract.createMarketSale(nft.tokenId, { value: price });
+        await transaction.wait();
+
+    }
     
     return (
         <NFTContext.Provider value={{ 
@@ -146,7 +193,8 @@ export const NFTProvider = ({ children }) => {
             currentAccount, 
             uploadToIPFS, 
             createNFT,
-            fetchNFTs }}>
+            fetchNFTs,
+            fetchMyNFTsOrListedNFTs }}>
             {children}
         </NFTContext.Provider>
     )
