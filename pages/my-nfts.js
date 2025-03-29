@@ -7,9 +7,16 @@ import { Loader, NFTCard, Banner } from '../components';
 import { shortenAddress } from '../utils/shortenString';
 
 const MyNFTs = () => {
-  const { fetchMyOrListedNFTs, currentAccount } = useContext(NFTContext);
+  const { fetchMyOrListedNFTs, currentAccount, fetchMyNFTsOrListedNFTs } = useContext(NFTContext);
   const [nfts, setNfts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect( () => {
+    fetchMyNFTsOrListedNFTs().then((items) => {
+        setNfts(items);
+        setIsLoading(false)
+    });
+  }, []);
 
   if (isLoading) {
     return (

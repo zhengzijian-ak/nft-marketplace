@@ -37,6 +37,7 @@ module.exports = {
       },
       height: {
         300: '300px',
+        486: '486px',
         557: '557px',
       },
       inset: {
@@ -62,6 +63,7 @@ module.exports = {
       md: { max: '990px' },
       sm: { max: '600px' },
       xs: { max: '400px' },
+      minsm: '600px',
       minmd: '1700px',
       minlg: '2100px',
     },

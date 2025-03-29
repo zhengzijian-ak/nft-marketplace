@@ -173,7 +173,7 @@ export const NFTProvider = ({ children }) => {
         return items;
     }
 
-    const butNFT = async (nft) => {
+    const buyNFT = async (nft) => {
         const web3Modal = new Web3Modal();
         const connection = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
@@ -194,7 +194,8 @@ export const NFTProvider = ({ children }) => {
             uploadToIPFS, 
             createNFT,
             fetchNFTs,
-            fetchMyNFTsOrListedNFTs }}>
+            fetchMyNFTsOrListedNFTs,
+            buyNFT }}>
             {children}
         </NFTContext.Provider>
     )
