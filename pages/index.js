@@ -5,7 +5,9 @@ import Image from 'next/image';
 
 import images from '../assets';
 import { makeId } from '../utils/makeId';
+import { getCreators } from '../utils/getTopCreators';
 import { NFTContext } from '../context/NFTContext';
+import { shortenAddress } from '../utils/shortenString';
 
 const Home = () => {
 
@@ -58,6 +60,10 @@ const Home = () => {
     }
   });
 
+  console.log(nfts);
+  const topCreators = getCreators(nfts);
+  console.log(topCreators);
+
   return (
     <div className="flex justify-center sm:px-4 p-12">
       <div className='w-full minmd:w-4/5'>
@@ -75,14 +81,13 @@ const Home = () => {
           <div className='relative flex-1 max-w-full flex mt-3' ref={parentRef}>
             <div className='flex flex-row w-max
             overflow-x-scroll no-scrollbar select-none' ref={scrollRef}>
-              {[6, 7, 8, 9, 10].map((i) => (
+              {topCreators.map((creator, i) => (
                 <CreatorCard
-                  key={`creator-${i}`}
-                  rank={i}
-                  creatorImage={images[`creator${i}`]}
-                  creatorName={`0x${makeId(3)}...${makeId(4)}
-                `}
-                creatorEths={10 - i * 0.5}
+                  key={creator.seller}
+                  rank={i + 1}
+                  creatorImage={images[`creator${i + 1}`]}
+                  creatorName={shortenAddress(creator.seller)}
+                creatorEths={creator.sum}
                 />
               ))}
               {!hideButtons && (

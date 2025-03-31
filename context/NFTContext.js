@@ -82,7 +82,7 @@ export const NFTProvider = ({ children }) => {
         try {
             // create NFT
             const searchParams = new URLSearchParams(formInput).toString();
-            fileUrl += "?" + searchParams;
+            fileUrl += "?" + searchParams + "&image=" + fileUrl;
             await createSale(fileUrl, price);
 
             router.push('/');
@@ -102,7 +102,9 @@ export const NFTProvider = ({ children }) => {
             const contract = fetchContract(signer);
             const listingPrice = await contract.getListingPrice();
 
-            const transaction = await contract.createToken(url, price, { value: listingPrice.toString() });
+            const transaction = !isReselling 
+                ? await contract.createToken(url, price, { value: listingPrice.toString() })
+                : await contract.resellToken(id, price, { value: listingPrice.toString() })
 
             await transaction.wait();
             console.log(contract);
@@ -195,7 +197,8 @@ export const NFTProvider = ({ children }) => {
             createNFT,
             fetchNFTs,
             fetchMyNFTsOrListedNFTs,
-            buyNFT }}>
+            buyNFT,
+            createSale }}>
             {children}
         </NFTContext.Provider>
     )

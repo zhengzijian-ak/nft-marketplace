@@ -132,7 +132,18 @@ const NFTDetails = () => {
             text-nft-black-1 text-base minlg:text-base
             font-normal border border-gray p-2'>
               You cannot buy your own NFT
-            </p>) : (
+            </p>) : currentAccount === nft.owner.toLowerCase() ? 
+            (
+              <Button
+                btnName="List on Marketplace"
+                classStyles="mr-5 sm:mr-0 sm:mb-5 rounded-xl"
+                handleClick={() => {
+                  const encodedTokenURI = encodeURIComponent(nft.tokenURI);
+                  router.push('/resell-nft?tokenId=' + nft.tokenId + '&tokenURI=' + encodedTokenURI)
+                }}
+              />
+            )
+            : (
               <Button
                 btnName={`Buy for ${nft.price} ${nftCurrency}`}
                 classStyles="mr-5 sm:mr-0 rounded-xl"
